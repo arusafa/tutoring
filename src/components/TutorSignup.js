@@ -2,12 +2,14 @@ import React, { useRef, useState } from "react";
 import { Form, Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import "firebase/compat/firestore";
+import { getDatabase, ref, set } from "firebase/database";
 
 export default function Signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, currentUser } = useAuth();
+  const { tutorSignup, currentTutor } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +22,12 @@ export default function Signup() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await tutorSignup(emailRef.current.value, passwordRef.current.value);
+      const db = getDatabase();
+      set(ref(db, "tutor/" + currentTutor.uid), {
+        email: currentTutor.email,
+        uid: currentTutor.uid,
+      });
     } catch {
       setError("Failed to create an account");
     }
@@ -31,9 +38,9 @@ export default function Signup() {
     <>
       <Card>
         <Card.Body>
-        <h2 className="text-center mb-4">Tutor</h2>
+        <h2 className="text- mb-0">Tutor</h2>
           <h2 className="text-center mb-4">Sign Up</h2>
-          {currentUser && currentUser.email}
+          {currentTutor && currentTutor.email}
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">

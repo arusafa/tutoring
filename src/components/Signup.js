@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { Form, Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import "firebase/compat/firestore";
+import { getDatabase, ref, set } from "firebase/database";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -21,6 +23,12 @@ export default function Signup() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      const db = getDatabase();
+      set(ref(db, "student/" + currentUser.uid), {
+        email: currentUser.email,
+        uid: currentUser.uid,
+      });
+
     } catch {
       setError("Failed to create an account");
     }
@@ -31,7 +39,7 @@ export default function Signup() {
     <>
       <Card>
         <Card.Body>
-        <h2 className="text-center mb-4">Student</h2>
+        <h2 className="text- mb-0">Student</h2>
           <h2 className="text-center mb-4">Sign Up</h2>
           {currentUser && currentUser.email}
           {error && <Alert variant="danger">{error}</Alert>}
