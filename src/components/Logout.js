@@ -1,43 +1,42 @@
-import React, { useState } from "react";
-import { Card, Button, Alert } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import firebase from "firebase/compat/app";
+import "firebase/auth";
 
-export default function Dashboard() {
-  const [error, setError] = useState("");
-  const { currentUser, logout } = useAuth();
-  const navigate = useNavigate();
+const Logout = () => {
+  const [user, setUser] = useState(null);
 
-  async function handleLogout() {
-    setError("");
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  }, []);
 
-    try {
-      await logout();
-      navigate("/");
-    } catch {
-      setError("Failed to log out");
-    }
-  }
+  const handleLogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      alert("You have been logged out")
+      .then(() => {
+        setUser(null);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
 
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Profile</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Email:</strong>
-          {currentUser.email}
-          <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
-            Update Profile
-          </Link>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        <Button variant="link" onClick={handleLogout}>
-          Log Out
-        </Button>
-      </div>
-    </>
+    <div>
+      <h1>Log Out</h1>
+      {user ? (
+        <>
+          <h1>{user.email}</h1>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <h1>Not Logged In</h1>
+      )}
+    </div>
   );
-}
+};
+
+export default Logout;
