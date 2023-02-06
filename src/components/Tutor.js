@@ -5,7 +5,7 @@ import "firebase/firestore";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-const SignUp = () => {
+const Tutor = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ const SignUp = () => {
       .then((user) => {
         firebase
           .firestore()
-          .collection("students")
+          .collection("tutors")
           .doc(user.user.uid)
           .set({ username, email, phone });
         alert("You have been signed up");
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div>
-      <h1>Sign Up "student"</h1>
+      <h1>Sign Up "tutor"</h1>
       {currentUser ? <h1>{currentUser.email}</h1> : null}
       <input
         type="text"
@@ -90,4 +90,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Tutor;
