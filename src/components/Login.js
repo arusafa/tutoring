@@ -21,7 +21,6 @@ const Login = () => {
     });
     return () => unsubscribe();
   }, []);
-;
 
   const handleLogin = () => {
     firebase
@@ -29,8 +28,8 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
         console.log(user);
-        alert("You have been logged in")
-        navigate("/")
+        alert("You have been logged in");
+        navigate("/landing");
       })
       .catch((error) => {
         alert(error.message);
@@ -40,7 +39,7 @@ const Login = () => {
   return (
     <div>
       <h1>Log In</h1>
-      {currentUser ? <h1>Logged User / {currentUser.email}</h1> : null}
+      {currentUser ? <h1>{currentUser.email}</h1> : null}
       <input
         type="email"
         placeholder="Email"

@@ -49,7 +49,7 @@ const SignUp = () => {
   return (
     <div>
       <h1>Sign Up</h1>
-      {currentUser ? <h1>Signed User / {currentUser.email}</h1> : null}
+      {currentUser ? <h1>{currentUser.email}</h1> : null}
       <input
         type="text"
         placeholder="Username"
