@@ -1,16 +1,13 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import StudentSingUp from "./Signup";
+import SingUp from "./Signup";
 import { AuthProvider } from "../context/AuthContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./Landing";
-import StudentLogin from "./Login";
-import StudentForgotPassword from "./ForgotPassword";
-import ProtectedProvider from "./ProtectedProvider";
-import Admin from "./Admin";
-import TutorSignup from "./TutorSignup"
-import StudentUpdateProfile from "./UpdateProfile";
+import Login from "./Login";
+import ForgotPassword from "./ForgotPassword";
+import Logout from "./Logout";
 
 function App() {
   return (
@@ -22,14 +19,12 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
-              <Route path={"/"} element={<ProtectedProvider><Landing/></ProtectedProvider>}/>
+              <Route path={"/"} element={<Landing />} />
               <Route path={"/landing"} element={<Landing />} />
-              <Route path={"/signup"} element={<StudentSingUp />} />
-              <Route path={"/login"} element={<StudentLogin />} />
-              <Route path={"/forgot-password"} element={<StudentForgotPassword />} />
-              <Route path={"/admin"} element={<Admin/>}/>
-              <Route path={"/tutor/"} element={<TutorSignup/>} />
-              <Route path={"/student/update-profile"} element={<StudentUpdateProfile/>} />
+              <Route path={"/signup"} element={<SingUp />} />
+              <Route path={"/login"} element={<Login />} />
+              <Route path={"/forgot-password"} element={<ForgotPassword />} />
+              <Route path={"/logout"} element={<Logout />} />
             </Routes>
           </AuthProvider>
         </Router>
